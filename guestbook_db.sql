@@ -1,4 +1,22 @@
 -- --------------------------------------------
+# root 계정에서 실행
+-- --------------------------------------------
+-- 계정생성
+create user 'guest'@'%' identified by 'guest';
+
+-- db 생성
+create database guestbook_db
+default character set utf8mb4
+collate utf8mb4_general_ci
+default encryption='n'
+;
+
+-- 권한 부여
+grant all privileges on guestbook_db.* to 'guest'@'%';
+
+flush privileges;
+
+-- --------------------------------------------
 # guestbook 계정에서 실행
 -- --------------------------------------------
 -- db 선택(guestbook 계정에서 실행)
@@ -7,7 +25,7 @@ use guestbook_db;
 -- table 삭제
 drop table guest;
 
--- person 테이블 생성(phonebook 계정에서 실행)
+-- guest 테이블 생성(guestbook 계정에서 실행)
 create table guest(
 	no integer primary key auto_increment,
     name varchar(80) not null,
