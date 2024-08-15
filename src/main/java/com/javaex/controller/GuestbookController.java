@@ -69,7 +69,7 @@ public class GuestbookController extends HttpServlet {
 			GuestVo guestVo = new GuestVo(no);
 
 			// 화면+데이터 수정폼
-			// 리퀘스트 어트리뷰트 영역에 eprsonVo 주소를 담는다
+			// 리퀘스트 어트리뷰트 영역에 guestVo 주소를 담는다
 			request.setAttribute("guestVo", guestVo);
 
 			// 포워드 deleteForm.jsp
