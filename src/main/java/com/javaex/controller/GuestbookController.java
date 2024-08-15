@@ -90,7 +90,11 @@ public class GuestbookController extends HttpServlet {
 			// GuestbookDao를 통해서 삭제(delete)를 시킨다
 			guestbookDao.deleteGuest(guestVo);
 
-			// 리다이렉트
+			/* 리다이렉트
+			 response.sendRedirect("/guestbook/gbc?action=deleteForm");은 오류 발생함
+			 response.sendRedirect()는 새로운 URL을 클라이언트에게 지시하는 역할만 하므로, 
+			 클라이언트는 새로운 요청을 만들 때 이전 요청의 파라미터를 포함하지 않는다. 
+			*/
 			response.sendRedirect("/guestbook/gbc?action=addList");
 		}
 
