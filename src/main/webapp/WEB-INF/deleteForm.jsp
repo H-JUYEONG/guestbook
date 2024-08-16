@@ -4,7 +4,7 @@
 <%@ page import="com.javaex.vo.GuestVo" %>
 
 <%
-GuestVo guestVo = (GuestVo)request.getAttribute("guestVo");
+	GuestVo guestVo = (GuestVo)request.getAttribute("guestVo");
 %>
     
 <!DOCTYPE html>
