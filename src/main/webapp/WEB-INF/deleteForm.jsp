@@ -1,11 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-    
-<%@ page import="com.javaex.vo.GuestVo" %>
-
-<%
-	GuestVo guestVo = (GuestVo)request.getAttribute("guestVo");
-%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
     
 <!DOCTYPE html>
 <html lang="ko">
@@ -23,7 +18,7 @@
 			</tr>
 		</table>
 		<input type="hidden" name="action" value="delete">
-		<input type="hidden" name="no" value="<%=guestVo.getNo()%>">
+		<input type="hidden" name="no" value="${param.no}"> <!-- guestVo.no 가능 -->
 	</form>
 	
 	<br><br>
