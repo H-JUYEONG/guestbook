@@ -62,117 +62,120 @@ public class GuestbookDao {
 			System.out.println("error:" + e);
 		}
 	}
-	
+
 	// 게스트 정보 삭제하기
-		public int deleteGuest(GuestVo guestVo) {
+	public boolean deleteGuest(int no, String password) {
 
-			int count = -1;
-			this.getConnection();
+		boolean delete = false;
 
-			try {
-				// 3. SQL문 준비 / 바인딩 / 실행
-				// *SQL문 준비
-				String query = "";
-				query += " delete from guest ";
-				query += " where password = ? ";
-				query += " and no = ? ";
+		int count = -1;
+		this.getConnection();
 
-				// 바인딩
-				pstmt = conn.prepareStatement(query);
-				pstmt.setString(1, guestVo.getPassword());
-				pstmt.setInt(2, guestVo.getNo());
+		try {
+			// 3. SQL문 준비 / 바인딩 / 실행
+			// *SQL문 준비
+			String query = "";
+			query += " delete from guest ";
+			query += " where password = ? ";
+			query += " and no = ? ";
 
-				// 실행
-				count = pstmt.executeUpdate();
+			// 바인딩
+			pstmt = conn.prepareStatement(query);
+			pstmt.setString(1, password);
+			pstmt.setInt(2, no);
 
-				// 4. 결과처리
-				System.out.println("dao 결과" + count);
+			// 실행
+			count = pstmt.executeUpdate();
 
-			} catch (SQLException e) {
-				System.out.println("error:" + e);
+			// 4. 결과처리
+			if (count > 0) {
+				delete = true;
 			}
 
-			this.close();
-
-			return count;
+		} catch (SQLException e) {
+			System.out.println("error:" + e);
 		}
-	
-	
+
+		this.close();
+
+		return delete;
+	}
+
 	// 게스트 정보 저장
-		public int insertGuest(GuestVo guestVo) {
+	public int insertGuest(GuestVo guestVo) {
 
-			int count = -1;
-			this.getConnection();
+		int count = -1;
+		this.getConnection();
 
-			try {
-				// 3. SQL문 준비 / 바인딩 / 실행
-				// *SQL문 준비
-				String query = "";
-				query += " insert into guest (name, password, content) ";
-				query += " values (?, ?, ?) ";
+		try {
+			// 3. SQL문 준비 / 바인딩 / 실행
+			// *SQL문 준비
+			String query = "";
+			query += " insert into guest (name, password, content) ";
+			query += " values (?, ?, ?) ";
 
-				// 바인딩
-				pstmt = conn.prepareStatement(query);
-				pstmt.setString(1, guestVo.getName());
-				pstmt.setString(2, guestVo.getPassword());
-				pstmt.setString(3, guestVo.getContent());
+			// 바인딩
+			pstmt = conn.prepareStatement(query);
+			pstmt.setString(1, guestVo.getName());
+			pstmt.setString(2, guestVo.getPassword());
+			pstmt.setString(3, guestVo.getContent());
 
-				// 실행
-				count = pstmt.executeUpdate();
+			// 실행
+			count = pstmt.executeUpdate();
 
-			} catch (SQLException e) {
-				System.out.println("error:" + e);
-			}
-
-			this.close();
-
-			return count;
+		} catch (SQLException e) {
+			System.out.println("error:" + e);
 		}
-	
+
+		this.close();
+
+		return count;
+	}
+
 	// 리스트 가져오기
-		public List<GuestVo> getGuestList() {
+	public List<GuestVo> getGuestList() {
 
-			List<GuestVo> guestList = new ArrayList<GuestVo>();
+		List<GuestVo> guestList = new ArrayList<GuestVo>();
 
-			this.getConnection();
+		this.getConnection();
 
-			try {
-				// 3. SQL문 준비 / 바인딩 / 실행
-				// *SQL문 준비
-				String query = "";
-				query += " select no, ";
-				query += " 		  name, ";
-				query += "		  password, ";
-				query += " 		  content, ";
-				query += " 		  reg_date ";
-				query += " from guest ";
+		try {
+			// 3. SQL문 준비 / 바인딩 / 실행
+			// *SQL문 준비
+			String query = "";
+			query += " select no, ";
+			query += " 		  name, ";
+			query += "		  password, ";
+			query += " 		  content, ";
+			query += " 		  reg_date ";
+			query += " from guest ";
 
-				// 바인딩
-				pstmt = conn.prepareStatement(query);
+			// 바인딩
+			pstmt = conn.prepareStatement(query);
 
-				// 실행
-				rs = pstmt.executeQuery();
+			// 실행
+			rs = pstmt.executeQuery();
 
-				// 4. 결과처리
-				while (rs.next()) {
-					int no = rs.getInt("no");
-					String name = rs.getString("name");
-					String pw = rs.getString("password");
-					String content = rs.getString("content");
-					String date = rs.getString("reg_date");
+			// 4. 결과처리
+			while (rs.next()) {
+				int no = rs.getInt("no");
+				String name = rs.getString("name");
+				String pw = rs.getString("password");
+				String content = rs.getString("content");
+				String date = rs.getString("reg_date");
 
-					GuestVo guestVo = new GuestVo(no, name, pw, content, date);
-					guestList.add(guestVo);
-				}
-
-			} catch (SQLException e) {
-				System.out.println("error:" + e);
+				GuestVo guestVo = new GuestVo(no, name, pw, content, date);
+				guestList.add(guestVo);
 			}
 
-			this.close();
-
-			return guestList;
-
+		} catch (SQLException e) {
+			System.out.println("error:" + e);
 		}
+
+		this.close();
+
+		return guestList;
+
+	}
 
 }

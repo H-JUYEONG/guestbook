@@ -65,7 +65,7 @@ public class GuestbookController extends HttpServlet {
 
 			// 파라미터는 기본이 문자형이기때문에 형변환 필요
 			int no = Integer.parseInt(request.getParameter("no"));
-			
+
 			GuestVo guestVo = new GuestVo(no);
 
 			// 화면+데이터 수정폼
@@ -80,22 +80,33 @@ public class GuestbookController extends HttpServlet {
 
 			// 파라미터는 기본이 문자형이기때문에 형변환 필요
 			int no = Integer.parseInt(request.getParameter("no"));
-			String pw = request.getParameter("password");
-
-			GuestVo guestVo = new GuestVo(no, pw);
+			String password = request.getParameter("password");
 
 			// Dao를 메모리에 올린다
 			GuestbookDao guestbookDao = new GuestbookDao();
 
 			// GuestbookDao를 통해서 삭제(delete)를 시킨다
-			guestbookDao.deleteGuest(guestVo);
+			boolean delete = guestbookDao.deleteGuest(no, password);
 
-			/* 리다이렉트
-			 response.sendRedirect("/guestbook/gbc?action=deleteForm");은 오류 발생함
-			 response.sendRedirect()는 새로운 URL을 클라이언트에게 지시하는 역할만 하므로, 
-			 클라이언트는 새로운 요청을 만들 때 이전 요청의 파라미터를 포함하지 않는다. 
-			*/
-			response.sendRedirect("/guestbook/gbc?action=addList");
+			if (delete) { // 삭제된 데이터가 있는 경우
+				
+				/*
+				 리다이렉트 response.sendRedirect("/guestbook/gbc?action=deleteForm");은 오류 발생함
+				 response.sendRedirect()는 새로운 URL을 클라이언트에게 지시하는 역할만 하므로, 
+				 클라이언트는 새로운 요청을 만들 때 이전 요청의 파라미터를 포함하지 않는다.
+				 */
+				response.sendRedirect("/guestbook/gbc?action=addList");
+				
+			} else {
+				System.out.println("입력하신 비밀번호가 일치하지 않습니다.");
+				
+				// 리퀘스트 어트리뷰트 영역에 guestVo 주소를 담는다
+				request.setAttribute("no", no);
+				
+				RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/error.jsp");
+				rd.forward(request, response);
+			}
+
 		}
 
 	}
