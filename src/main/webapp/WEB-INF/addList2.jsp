@@ -5,7 +5,7 @@
 
 <%
 	List<GuestVo> guestList = (List<GuestVo>)request.getAttribute("guestList");
-%>
+%> 
 <!DOCTYPE html>
 <html lang="ko">
 <head>
