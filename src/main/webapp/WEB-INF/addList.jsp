@@ -38,9 +38,9 @@
 			<td colspan="4">${guestVo.content}</td>
 		</tr>
 	</table>
-	</c:forEach>
 	<br>
-
+	</c:forEach>
+	
 </body>
 
 </html>
